@@ -1,4 +1,4 @@
-export function SearchBar() {
+export function SearchBar({ setQuery, setCategoria, setActivateSearch }) {
   const categorias = [
     "Natureza",
     "Pessoas",
@@ -9,9 +9,16 @@ export function SearchBar() {
 
   return (
     <div className="search-bar">
-      <input type="text" placeholder="Pesquisar fotos..." />
-      <button>Pesquisar</button>
-      <select>
+      <input 
+        type="text" 
+        placeholder="Pesquisar fotos..."
+        onChange={(e) => setQuery(e.target.value)}
+      />
+      <button onClick={() => setActivateSearch(true)}>Pesquisar</button>
+      <select onChange={(e) => {
+        setCategoria(e.target.value);
+        setActivateSearch(true);
+      }}>
         {categorias.map((categoria) => (
           <option key={categoria} value={categoria}>
             {categoria}
