@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { FotoAmpliada } from './components/FotoAmpliada'
+import { FotoList } from './components/FotoList'
+import { SearchBar } from './components/SearchBar'
+
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [query, setQuery] = useState("");
+  const [categoria, setCategoria] = useState("");
+
+  const fetchData = async ({ query, categoria }) => {
+    const apiKey  = import.meta.env.VITE_UNSPLASH_API_KEY;
+
+    const response = await axios.get("https://api.unsplash.com/photos/random", {
+      params: {
+        client_id: apiKey
+      }
+    });
+    console.log(response);
+
+  };
+
+  useEffect(() => {
+    fetchData(query, categoria);
+  }, [])
+  
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className='container'>
+      <SearchBar />
+      <FotoList />
+      <FotoAmpliada />
+    </div>
+  );
+};
 
 export default App
